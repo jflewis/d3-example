@@ -32,8 +32,8 @@ export const GoogleChart = () => {
         [
           "events",
           "Return to work",
-          new Date("9/1/93"),
-          new Date("9/1/93"),
+          new Date("10/22/93"),
+          new Date("10/22/93"),
           "#5B80FF",
         ],
 
@@ -49,14 +49,14 @@ export const GoogleChart = () => {
           "NY Short-term Disability",
           "NY Short-term Disability",
           new Date("8/12/93"),
-          new Date("8/22/93"),
+          new Date("9/25/93"),
           "#a7befb",
         ],
         [
           "Short-term Disability",
           "Short-term Disability",
           new Date("8/12/93"),
-          new Date("8/22/93"),
+          new Date("9/25/93"),
           "#FFCE79",
         ],
         [
@@ -70,7 +70,7 @@ export const GoogleChart = () => {
           "NY Paid Family Leave *",
           "NY Paid Family Leave *",
           new Date("8/12/93"),
-          new Date("8/22/93"),
+          new Date("10/22/93"),
           "#a7a9b7",
         ],
         ["PTO", "PTO", new Date("8/22/93"), new Date("8/27/93"), "#ACE7DE"],
