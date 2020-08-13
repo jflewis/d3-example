@@ -3,6 +3,7 @@ import React from "react";
 import { ApexChart } from "./components/ApexChart";
 import "./App.css";
 import { GoogleChart } from "./components/GoogleChart";
+import { D3Chart } from "./components/D3Chart";
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <ApexChart />
-      <GoogleChart />
+      {/* <ApexChart />
+      <GoogleChart /> */}
+      <D3Chart />
     </div>
   );
 }
