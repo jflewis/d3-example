@@ -1,9 +1,8 @@
 import React from "react";
 // import logo from "./logo.svg";
-import { ApexChart } from "./components/ApexChart";
 import "./App.css";
-import { GoogleChart } from "./components/GoogleChart";
-import { D3Chart } from "./components/D3Chart";
+import { D3ChartWeeks } from "./components/D3ChartWeeks";
+import { D3ColumnRange } from "./components/D3ColumnRange";
 
 function App() {
   return (
@@ -22,9 +21,8 @@ function App() {
           Learn React
         </a>
       </header> */}
-      {/* <ApexChart />
-      <GoogleChart /> */}
-      <D3Chart />
+      {/* <D3ColumnRange /> */}
+      <D3ChartWeeks />
     </div>
   );
 }
