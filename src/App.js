@@ -2,7 +2,6 @@ import React from "react";
 // import logo from "./logo.svg";
 import "./App.css";
 import { D3ChartWeeks } from "./components/D3ChartWeeks";
-import { D3ColumnRange } from "./components/D3ColumnRange";
 
 function App() {
   return (
@@ -21,8 +20,10 @@ function App() {
           Learn React
         </a>
       </header> */}
-      {/* <D3ColumnRange /> */}
-      <D3ChartWeeks />
+
+      <div className="chart-container">
+        <D3ChartWeeks />
+      </div>
     </div>
   );
 }
