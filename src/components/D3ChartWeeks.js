@@ -4,6 +4,7 @@ import * as d3 from "d3";
 
 export const D3ChartWeeks = () => {
   const ref = useRef(null);
+  const forward = useRef(null);
   const plans = [
     {
       name: "PTO",
@@ -68,15 +69,6 @@ export const D3ChartWeeks = () => {
   const [xDomain, setXDomain] = useState([0, 5]);
 
   // view data is data with x domain
-  let viewData = plans.filter((plan) => {
-    const start = datefns.differenceInWeeks(plan.range[0], range[0]);
-
-    const end = datefns.differenceInWeeks(plan.range[1], range[0]);
-
-    return start >= xDomain[0] && end <= xDomain[1];
-  });
-
-  console.log(viewData);
 
   const height = 693;
   const width = 954;
@@ -147,7 +139,7 @@ export const D3ChartWeeks = () => {
     const xAxis = (g) =>
       g
         .attr("transform", `translate(0,${margin.top})`)
-        .call(d3.axisTop(x))
+        .call(d3.axisTop(x).ticks(5))
         .call((g) => g.select(".domain").remove())
         .call((g) =>
           g
@@ -168,7 +160,7 @@ export const D3ChartWeeks = () => {
           g
             .append("g")
             .selectAll("line")
-            .data(x.ticks())
+            .data(x.ticks(5))
             .join("line")
             .attr("x1", (d) => 0.5 + x(d))
             .attr("x2", (d) => 0.5 + x(d))
@@ -254,7 +246,7 @@ export const D3ChartWeeks = () => {
     svg
       .append("g")
       .attr("fill", "black")
-      .attr("text-anchor", "middle")
+      .attr("text-anchor", "start")
       .attr("font-family", "sans-serif")
       .attr("font-size", 12)
       .selectAll("text")
@@ -264,18 +256,32 @@ export const D3ChartWeeks = () => {
         const startPosition = x(
           datefns.differenceInWeeks(d.range[0], range[0])
         );
-        const endPosition = x(datefns.differenceInWeeks(d.range[1], range[0]));
-        return (endPosition + startPosition) / 2;
+        return startPosition;
       })
-      .attr("dx", -4)
+      .attr("dx", +4)
       .attr("y", (d) => y(d.name) + y.bandwidth() / 2)
-      .text((d) => d.name);
+      .text((d) => d.name)
+      .call((text) =>
+        text
+          .filter((d) => {
+            console.log(d);
+            const startPosition = x(
+              datefns.differenceInWeeks(d.range[0], range[0])
+            );
+            const endWeek = datefns.differenceInWeeks(d.range[1], range[0]);
+            return startPosition < 0 && endWeek > xDomain[0];
+          }) // short bars
+          .attr("x", x(xDomain[0]))
+          .attr("dx", +4)
+          .attr("fill", "black")
+          .attr("text-anchor", "start")
+      );
 
     // event labels
     svg
       .append("g")
       .attr("fill", "black")
-      .attr("text-anchor", "end")
+      .attr("text-anchor", "start")
       .attr("font-family", "sans-serif")
       .attr("font-size", 12)
       .selectAll("text")
@@ -290,10 +296,10 @@ export const D3ChartWeeks = () => {
         // return (endPosition + startPosition) / 2;
 
         // End
-        return x(datefns.differenceInWeeks(d.date, range[0])) + 20;
+        return x(datefns.differenceInWeeks(d.date, range[0])) + 26;
       })
       .attr("dx", +4)
-      .attr("y", (d) => 30 + 20 / 2)
+      .attr("y", y("events") + eventHeight + 10)
       .text((d) => d.name);
 
     // Holiday labels
@@ -320,12 +326,43 @@ export const D3ChartWeeks = () => {
       .attr("dx", +4)
       .attr("y", (d) => 30 + 20 / 2)
       .text((d) => d.name);
+
+    return () => {
+      svg.remove();
+    };
   });
 
   return (
     <div>
-      <button>back</button>
-      <button>forward</button>
+      <button
+        onClick={() => {
+          console.log("forward");
+          setXDomain((prev) => {
+            console.log(prev);
+            const [min, max] = prev;
+            if (min <= 0) {
+              return prev;
+            }
+            return [min - 5, max - 5];
+          });
+        }}
+      >
+        back
+      </button>
+      <button
+        onClick={() => {
+          setXDomain((prev) => {
+            console.log(prev);
+            const [min, max] = prev;
+            if (max >= 20) {
+              return prev;
+            }
+            return [min + 5, max + 5];
+          });
+        }}
+      >
+        forward
+      </button>
       <div ref={ref}></div>
     </div>
   );
